@@ -343,7 +343,13 @@ class Api(object):
     def domains_dns_getHosts(self, domain):
         """Retrieves DNS host record settings. Note that the key names are different from those
         you use when setting the host records."""
-        sld, tld = domain.split(".")
+        
+        if domain.count(".") == 1:
+            sld, tld = domain.split(".")
+        else:
+            sld='.'.join(domain.split(".")[0:-1])
+            tld=domain.split(".")[-1]
+          
         extra_payload = {
             'SLD': sld,
             'TLD': tld
@@ -380,7 +386,13 @@ class Api(object):
         print("To set: %i" % len(host_records_remote))
 
         extra_payload = self._list_of_dictionaries_to_numbered_payload(host_records_remote)
-        sld, tld = domain.split(".")
+        
+        if domain.count(".") == 1:
+            sld, tld = domain.split(".")
+        else:
+            sld='.'.join(domain.split(".")[0:-1])
+            tld=domain.split(".")[-1]
+            
         extra_payload.update({
             'SLD': sld,
             'TLD': tld
